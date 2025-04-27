@@ -87,7 +87,7 @@ const Sidebar = () => {
       id: "reports",
       icon: <FileText className="w-5 h-5" />,
       label: "Rapport et recommandations",
-      path: "/rapports",
+      path: "/rapport-recommandations",
       subItems: [],
     },
     {
@@ -184,7 +184,7 @@ const Sidebar = () => {
       {activeMenu &&
         menuItems.find((item) => item.id === activeMenu)?.subItems.length! > 0 && (
           <div
-            className="fixed left-20 md:left-64 bg-[#1A1A1A] text-white shadow-lg rounded-r-lg p-4 min-w-64 z-10 opacity-0 animate-fadeIn"
+            className="fixed left-20 md:left-64 bg-[#1A1A1A] text-white shadow-lg rounded-r-lg p-4 min-w-64 z-100 opacity-0 animate-fadeIn"
             style={{
               top: `${subMenuPosition.top}px`,
               animation: "fadeIn 0.2s forwards",

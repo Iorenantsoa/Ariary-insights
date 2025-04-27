@@ -13,7 +13,7 @@ export default function KeyInsights() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 ">
       {/* Corrélation inflation */}
       <div className="p-5 bg-[#2A2A2A] border border-[#333] rounded-2xl shadow-sm hover:shadow-md transition duration-300 ease-in-out">
         <h3 className="text-lg font-semibold text-gray-200 mb-4">Corrélation inflation/taux de change</h3>

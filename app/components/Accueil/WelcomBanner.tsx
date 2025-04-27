@@ -16,7 +16,7 @@ export default function SimpleBanner() {
       <div className="absolute inset-0 bg-black bg-opacity-10"></div>
       
       {/* Contenu */}
-      <div className="relative z-10 py-16 px-4 text-center">
+      <div className="relative z-2 py-16 px-4 text-center">
         <h1 className={`text-3xl md:text-4xl font-bold text-white mb-2 transition-all duration-1000 transform ${isLoaded ? 'translate-y-0' : 'translate-y-10'}`}>
           Bienvenue sur <span className="text-blue-300">Ariary Insights</span>
         </h1>
