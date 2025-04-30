@@ -38,7 +38,7 @@ const Sidebar = () => {
       label: "Accueil",
       path: "/",
       subItems: [],
-    },
+    }, 
     {
       id: "descriptive",
       icon: <BarChart2 className="w-5 h-5" />,
@@ -46,11 +46,11 @@ const Sidebar = () => {
       path: "/analyses-descriptives",
       subItems: [
         { label: "Taux de change", path: "/analyses-descriptives/taux-de-change" },
-        { label: "Inflation et taux de change", path: "/analyses-descriptives/inflation" },
+        { label: "Inflation et taux de change", path: "/analyses-descriptives/inflation-taux-de-change" },
         { label: "Réserves internationales", path: "/analyses-descriptives/reserves" },
         { label: "Dette extérieure", path: "/analyses-descriptives/dette" },
-        { label: "Balance commerciale", path: "/analyses-descriptives/balance" },
-        { label: "Croissance économique", path: "/analyses-descriptives/croissance" },
+        { label: "Balance commerciale", path: "/analyses-descriptives/balance-commerciale" },
+        { label: "Croissance économique", path: "/analyses-descriptives/croissance-economique" },
       ],
     },
     {
@@ -59,7 +59,7 @@ const Sidebar = () => {
       label: "Analyses avancées",
       path: "/analyses-avancees",
       subItems: [
-        { label: "Régression multiple", path: "/analyses-avancees/regression" },
+        { label: "Analyse multivariée", path: "/analyses-avancees/analyse-multivariee" },
         { label: "ACP", path: "/analyses-avancees/acp" },
         { label: "Clustering économique", path: "/analyses-avancees/clustering" },
       ],

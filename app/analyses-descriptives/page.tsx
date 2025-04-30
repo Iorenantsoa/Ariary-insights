@@ -24,7 +24,7 @@ const descriptiveMenuItems = [
   },
   { 
     label: "Inflation et taux de change", 
-    path: "/analyses-descriptives/inflation",
+    path: "/analyses-descriptives/inflation-taux-de-change",
     icon: <Percent className="w-6 h-6" />,
     color: "from-cyan-600 to-cyan-800",
     description: "Corrélation entre inflation et variations du taux de change"
@@ -45,14 +45,14 @@ const descriptiveMenuItems = [
   },
   { 
     label: "Balance commerciale", 
-    path: "/analyses-descriptives/balance",
+    path: "/analyses-descriptives/balance-commerciale",
     icon: <ShoppingCart className="w-6 h-6" />,
     color: "from-violet-600 to-violet-800",
     description: "Étude des importations et exportations et leur équilibre"
   },
   { 
     label: "Croissance économique", 
-    path: "/analyses-descriptives/croissance",
+    path: "/analyses-descriptives/croissance-economique",
     icon: <TrendingUp className="w-6 h-6" />,
     color: "from-sky-600 to-sky-800",
     description: "Analyse de la croissance du PIB et des facteurs économiques"
@@ -78,7 +78,7 @@ const itemVariants = {
     transition: { duration: 0.5, ease: "easeOut" }
   }
 };
-
+ 
 export default function DescriptiveAnalysisPage() {
   return (
     <div className="min-h-screen bg-[#212121] text-white py-12 px-4 md:px-8">

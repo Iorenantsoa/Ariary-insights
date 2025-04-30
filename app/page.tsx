@@ -14,7 +14,7 @@ export default function Home() {
           <DashboardIndicators />
         </div>
         <div>
-          <ExchangeRateChart />
+          <ExchangeRateChart  period="all"/>
         </div>
         <div>
           <KeyInsights />

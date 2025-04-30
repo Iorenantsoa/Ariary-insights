@@ -13,8 +13,8 @@ import { motion } from 'framer-motion';
 // Définition des items du menu pour les analyses avancées
 const advancedMenuItems = [
   { 
-    label: "Régression multiple", 
-    path: "/analyses-avancees/regression",
+    label: "Analyse multivariée", 
+    path: "/analyses-avancees/analyse-multivariee",
     icon: <LineChart className="w-6 h-6" />,
     color: "indigo-600",
     description: "Analyse des relations entre variables économiques multiples"
