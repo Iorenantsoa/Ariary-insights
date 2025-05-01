@@ -16,7 +16,7 @@ import { motion } from 'framer-motion';
 const thematicMenuItems = [
   { 
     label: "Volatilité du taux de change", 
-    path: "/analyses-thematiques/volatilite",
+    path: "/analyses-thematiques/volatilite-taux-change",
     icon: <TrendingUp className="w-6 h-6" />,
     color: "blue-600",
     gradient: "from-blue-600/20 via-blue-500/10 to-transparent",
@@ -32,15 +32,15 @@ const thematicMenuItems = [
   },
   { 
     label: "Remises de fonds", 
-    path: "/analyses-thematiques/remises",
+    path: "/analyses-thematiques/remises-de-fonds",
     icon: <CreditCard className="w-6 h-6" />,
     color: "violet-600",
     gradient: "from-violet-600/20 via-violet-500/10 to-transparent",
     description: "Impact des transferts de fonds de la diaspora sur l'économie nationale"
   },
   { 
-    label: "Taux de change réel", 
-    path: "/analyses-thematiques/taux-reel",
+    label: "Impacts Des Chocs Exogènes", 
+    path: "/analyses-thematiques/impacts-chocs-exogenes",
     icon: <DollarSign className="w-6 h-6" />,
     color: "indigo-600",
     gradient: "from-indigo-600/20 via-indigo-500/10 to-transparent",

@@ -38,7 +38,7 @@ const Sidebar = () => {
       label: "Accueil",
       path: "/",
       subItems: [],
-    }, 
+    },
     {
       id: "descriptive",
       icon: <BarChart2 className="w-5 h-5" />,
@@ -70,10 +70,10 @@ const Sidebar = () => {
       label: "Analyses thématiques",
       path: "/analyses-thematiques",
       subItems: [
-        { label: "Volatilité du taux de change", path: "/analyses-thematiques/volatilite" },
+        { label: "Volatilité du taux de change", path: "/analyses-thematiques/volatilite-taux-change" },
         { label: "IDE", path: "/analyses-thematiques/ide" },
-        { label: "Remises de fonds", path: "/analyses-thematiques/remises" },
-        { label: "Taux de change réel", path: "/analyses-thematiques/taux-reel" },
+        { label: "Remises de fonds", path: "/analyses-thematiques/remises-de-fonds" },
+        { label: "Impacts des Chocs Exogènes", path: "/analyses-thematiques/impacts-chocs-exogenes" },
       ],
     },
     {
@@ -144,27 +144,24 @@ const Sidebar = () => {
               href={item.path}
               key={item.id}
               className={`flex items-center py-3 px-4 transition-all duration-200 hover:bg-gray-800 relative
-                ${
-                  isActive(item.path) || hasActiveChild(item)
-                    ? "bg-gray-800 border-l-4 border-blue-400"
-                    : ""
+                ${isActive(item.path) || hasActiveChild(item)
+                  ? "bg-gray-800 border-l-4 border-blue-400"
+                  : ""
                 }`}
               onMouseEnter={(e) => handleMouseEnter(item.id, e)}
             >
               <div className="flex items-center justify-center md:justify-start w-full">
                 <span
-                  className={`${
-                    isActive(item.path) || hasActiveChild(item)
+                  className={`${isActive(item.path) || hasActiveChild(item)
                       ? "text-blue-300"
                       : "text-gray-200"
-                  }`}
+                    }`}
                 >
                   {item.icon}
                 </span>
                 <span
-                  className={`ml-4 hidden md:block ${
-                    isActive(item.path) || hasActiveChild(item) ? "font-medium" : ""
-                  }`}
+                  className={`ml-4 hidden md:block ${isActive(item.path) || hasActiveChild(item) ? "font-medium" : ""
+                    }`}
                 >
                   {item.label}
                 </span>
@@ -203,10 +200,9 @@ const Sidebar = () => {
                     <Link
                       href={subItem.path}
                       className={`block px-3 py-2 rounded transition-colors duration-200
-                        ${
-                          isActive(subItem.path)
-                            ? "bg-gray-700 text-blue-500 font-medium"
-                            : "hover:bg-gray-800"
+                        ${isActive(subItem.path)
+                          ? "bg-gray-700 text-blue-500 font-medium"
+                          : "hover:bg-gray-800"
                         }`}
                     >
                       {subItem.label}

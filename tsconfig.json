@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/analyses-avancees/clustering-economique/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/analyses-avancees/clustering-economique/page.jsx", "app/analyses-thematiques/ide/page.jsx", "app/analyses-thematiques/remises-de-fonds/page.jsx"],
   "exclude": ["node_modules"]
 }
