@@ -61,7 +61,7 @@ const Sidebar = () => {
       subItems: [
         { label: "Analyse multivariée", path: "/analyses-avancees/analyse-multivariee" },
         { label: "ACP", path: "/analyses-avancees/acp" },
-        { label: "Clustering économique", path: "/analyses-avancees/clustering" },
+        { label: "Clustering économique", path: "/analyses-avancees/clustering-economique" },
       ],
     },
     {

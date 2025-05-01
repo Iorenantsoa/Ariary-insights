@@ -28,7 +28,7 @@ const advancedMenuItems = [
   },
   { 
     label: "Clustering économique", 
-    path: "/analyses-avancees/clustering",
+    path: "/analyses-avancees/clustering-economique",
     icon: <Layers className="w-6 h-6" />,
     color: "violet-600",
     description: "Segmentation des données économiques par groupes similaires"
