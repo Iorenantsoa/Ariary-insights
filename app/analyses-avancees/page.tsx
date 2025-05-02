@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { 
-  Brain, 
+import {
+  Brain,
   ArrowUpRight,
   Network,
   LineChart,
@@ -12,22 +12,22 @@ import { motion } from 'framer-motion';
 
 // Définition des items du menu pour les analyses avancées
 const advancedMenuItems = [
-  { 
-    label: "Analyse multivariée", 
+  {
+    label: "Analyse multivariée",
     path: "/analyses-avancees/analyse-multivariee",
     icon: <LineChart className="w-6 h-6" />,
     color: "indigo-600",
     description: "Analyse des relations entre variables économiques multiples"
   },
-  { 
-    label: "ACP", 
+  {
+    label: "ACP",
     path: "/analyses-avancees/acp",
     icon: <Network className="w-6 h-6" />,
     color: "cyan-600",
     description: "Analyse en Composantes Principales pour réduire la dimensionnalité des données"
   },
-  { 
-    label: "Clustering économique", 
+  {
+    label: "Clustering économique",
     path: "/analyses-avancees/clustering-economique",
     icon: <Layers className="w-6 h-6" />,
     color: "violet-600",
@@ -65,13 +65,11 @@ export default function AdvancedAnalysisPage() {
           <h1 className="text-3xl md:text-4xl font-bold">Analyses Avancées</h1>
         </div>
         <p className="text-gray-400 max-w-3xl mx-auto">
-          Découvrez nos méthodes d'analyse statistique avancées pour une compréhension 
-          approfondie des tendances économiques et financières.
-        </p>
+          Découvrez nos méthodes d{"'"}analyse statistique avancées pour une compréhension approfondie des tendances économiques et financières.</p>
       </div>
 
       {/* Grille de cartes de menu - design différent */}
-      <motion.div 
+      <motion.div
         className="max-w-5xl mx-auto"
         variants={containerVariants}
         initial="hidden"
@@ -111,8 +109,8 @@ export default function AdvancedAnalysisPage() {
       {/* Note informative */}
       <div className="max-w-7xl mx-auto mt-12 text-center">
         <p className="text-gray-500 text-sm">
-          Les analyses avancées utilisent des modèles statistiques développés par notre équipe 
-          d'économistes et de data scientists.
+          Les analyses avancées utilisent des modèles statistiques développés par notre équipe
+          d&apos;économistes et de data scientists.
         </p>
       </div>
     </div>

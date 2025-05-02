@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -14,7 +12,6 @@ import {
   Area,
   ComposedChart,
   Label,
-  Brush
 } from 'recharts';
 
 // Types
@@ -35,9 +32,9 @@ type ExchangeRateChartProps = {
 const historicalEvents: HistoricalEvents = {
   1960: "Indépendance",
   1972: "Renversement 1ère République",
-  1975: "Nationalisation sous Ratsiraka",  
-  1991: "Transition démocratique",  
-  2002: "Crise post-électorale",  
+  1975: "Nationalisation sous Ratsiraka",
+  1991: "Transition démocratique",
+  2002: "Crise post-électorale",
   2009: "Coup d'état",
   2013: "Retour ordre constitutionnel",
   2017: "Sécheresse et cyclones",
@@ -126,21 +123,21 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
     { year: 2027, rate: 5043.32 },
     { year: 2028, rate: 5193.09 }
   ];
- 
+
   // Filtrer les données en fonction de la période sélectionnée
   useEffect(() => {
     const currentYear = 2023;
     let startYear = 1960;
-    
+
     if (period === '10y') {
       startYear = currentYear - 10;
     } else if (period === '5y') {
       startYear = currentYear - 5;
     }
-    
+
     setFilteredData(historicalData.filter(d => d.year >= startYear));
     setFilteredForecasts(forecasts);
-    
+
     // Ajuster le domaine Y pour un meilleur affichage selon la période
     if (period === '5y' || period === '10y') {
       const minRate = Math.min(...historicalData.filter(d => d.year >= startYear).map(d => d.rate));
@@ -151,9 +148,9 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
       setYAxisDomain([0, 5500]);
     }
   }, [period]);
- 
+
   const combinedData = [...filteredData, ...filteredForecasts];
- 
+
   const relevantYears = Object.keys(historicalEvents)
     .map(year => parseInt(year, 10))
     .filter(year => {
@@ -173,13 +170,25 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
       return [1960, 1970, 1980, 1990, 2000, 2010, 2020];
     }
   };
+  // Définition de l'interface pour les données du graphique
+  interface ChartPoint {
+    year: number;
+    rate: number;
+    // Ajoutez les autres propriétés que chaque point de données contient
+  }
 
-  const handleMouseOver = (data: any) => {
+  // Interface pour les données de l'événement de survol
+  interface MouseOverData {
+    activePayload?: Array<{
+      payload: ChartPoint;
+    }>;
+    // Autres propriétés potentielles de l'événement
+  }
+  const handleMouseOver = (data: MouseOverData) => {
     if (data && data.activePayload && data.activePayload[0]) {
       setHoveredPoint(data.activePayload[0].payload);
     }
   };
-
   const handleMouseLeave = () => {
     setHoveredPoint(null);
   };
@@ -187,10 +196,10 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
   // Calculer le taux de dépréciation entre deux points si disponibles
   const getDepreciationRate = () => {
     if (!hoveredPoint) return null;
-    
+
     const prevPoint = combinedData.find(d => d.year === hoveredPoint.year - 1);
     if (!prevPoint) return null;
-    
+
     const depreciationRate = ((hoveredPoint.rate - prevPoint.rate) / prevPoint.rate) * 100;
     return depreciationRate.toFixed(2);
   };
@@ -203,10 +212,10 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
         <h2 className="text-xl font-bold text-white">
           Évolution du taux de change Ariary/USD ({period === 'all' ? '1960' : period === '10y' ? '10 dernières années' : '5 dernières années'}-2028)
         </h2>
-        
+
         {hoveredPoint && (
           <div className="bg-gray-800 rounded-lg px-3 py-1 text-sm">
-            <span className="font-medium text-blue-300">{hoveredPoint.year}</span>: 
+            <span className="font-medium text-blue-300">{hoveredPoint.year}</span>:
             <span className="font-bold text-white ml-1">{hoveredPoint.rate.toLocaleString()} Ar</span>
             {depreciationRate && (
               <span className={`ml-2 ${parseFloat(depreciationRate) > 0 ? 'text-red-400' : 'text-green-400'}`}>
@@ -219,29 +228,29 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
 
       <div className="flex-grow relative">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart 
-            data={combinedData} 
+          <ComposedChart
+            data={combinedData}
             margin={{ top: 20, right: 60, left: 30, bottom: 40 }}
             onMouseMove={handleMouseOver}
             onMouseLeave={handleMouseLeave}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-            <XAxis 
-              dataKey="year" 
+            <XAxis
+              dataKey="year"
               ticks={getAppropriateXTicks()}
               stroke="#ccc"
-              domain={['dataMin', 'dataMax']} 
+              domain={['dataMin', 'dataMax']}
               type="number"
               allowDataOverflow={false}
               padding={{ left: 10, right: 10 }}
             />
-            <YAxis 
+            <YAxis
               domain={yAxisDomain}
-              tickFormatter={(value: any) => value.toLocaleString()}
+              tickFormatter={(value: number) => value.toLocaleString()}
               stroke="#ccc"
               width={70}
             />
-            <Tooltip 
+            <Tooltip
               contentStyle={{ backgroundColor: '#333', borderColor: '#555', borderRadius: 8 }}
               itemStyle={{ color: '#ddd' }}
               labelStyle={{ color: '#fff', fontWeight: 'bold' }}
@@ -253,35 +262,35 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
               labelFormatter={(label: number) => `Année ${label}${historicalEvents[label] ? ` - ${historicalEvents[label]}` : ''}`}
             />
             <Legend wrapperStyle={{ color: '#ccc' }} />
-            
+
             <defs>
               <linearGradient id="colorRate" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1} />
               </linearGradient>
               <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#10B981" stopOpacity={0.1}/>
+                <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#10B981" stopOpacity={0.1} />
               </linearGradient>
             </defs>
 
-            <Area 
-              type="monotone" 
-              dataKey="rate" 
+            <Area
+              type="monotone"
+              dataKey="rate"
               data={filteredData}
-              fill="url(#colorRate)" 
+              fill="url(#colorRate)"
               stroke="#60A5FA"
               name="Ariary/USD"
               strokeWidth={2}
               dot={{ r: 3, strokeWidth: 1 }}
               activeDot={{ r: 6 }}
             />
-            
-            <Area 
-              type="monotone" 
-              dataKey="rate" 
+
+            <Area
+              type="monotone"
+              dataKey="rate"
               data={filteredForecasts}
-              fill="url(#colorForecast)" 
+              fill="url(#colorForecast)"
               stroke="#10B981"
               name="Projection"
               strokeWidth={2}
@@ -290,16 +299,16 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
               activeDot={{ r: 6 }}
             />
 
-            <ReferenceLine 
-              x={2023} 
-              stroke="#FBBF24" 
-              strokeWidth={2} 
-              label={{ 
-                value: "Présent", 
-                position: "top", 
-                fill: "#FBBF24", 
-                fontSize: 12 
-              }} 
+            <ReferenceLine
+              x={2023}
+              stroke="#FBBF24"
+              strokeWidth={2}
+              label={{
+                value: "Présent",
+                position: "top",
+                fill: "#FBBF24",
+                fontSize: 12
+              }}
             />
 
             {/* Historical events with short name labels */}
@@ -316,7 +325,7 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
               >
                 <Label
                   content={({ viewBox }) => {
-                    // @ts-ignore
+                    // @ts-expect-error viewBox devrait contenir une propriété x
                     const { x } = viewBox;
                     const eventText = historicalEvents[year];
                     return (
@@ -338,8 +347,8 @@ export default function ExchangeRateChart({ period = 'all' }: ExchangeRateChartP
                 />
               </ReferenceLine>
             ))}
-            
-            
+
+
           </ComposedChart>
         </ResponsiveContainer>
       </div>

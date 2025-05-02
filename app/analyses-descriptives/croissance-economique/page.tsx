@@ -116,8 +116,8 @@ const economicCyclesData = rawData.map((item, index) => {
 export default function CyclesEconomiquesPage() {
     const [selectedPeriod, setSelectedPeriod] = useState<Period>('all');
     const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
-    const [hoveredYear, setHoveredYear] = useState<number | null>(null);
-    const [recessions, setRecessions] = useState<{ start: number, end: number }[]>([]);
+    const [, setHoveredYear] = useState<number | null>(null);
+    const [, setRecessions] = useState<{ start: number, end: number }[]>([]);
 
     // Identification des cycles économiques (récessions)
     useEffect(() => {
@@ -245,29 +245,35 @@ export default function CyclesEconomiquesPage() {
     const cycles = identifyCycles(economicCyclesData);
 
     // Les principales récessions
-    const majorRecessions = cycles
+     cycles
         .filter(cycle => cycle.type === 'recession' && cycle.duration >= 2)
         .sort((a, b) => b.duration - a.duration)
         .slice(0, 4);
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
-        if (active && payload && payload.length) {
-            // Trouver l'événement historique correspondant à cette année, s'il existe
-            const event = historicalEvents.find(e => e.year === label);
-
-            return (
-                <div className="bg-[#333] p-3 border border-gray-600 rounded shadow-lg">
-                    <p className="font-bold text-white">{`Année: ${label}`}</p>
-                    <p className="text-blue-400">{`Croissance du PIB: ${payload[0].value.toFixed(2)}%`}</p>
-                    <p className="text-green-400">{`PIB: ${(payload[0].payload.gdp / 1000000).toFixed(2)} M$`}</p>
-                    {event && (
-                        <p className="mt-2 text-yellow-400">{`Événement: ${event.name}`}</p>
-                    )}
-                </div>
-            );
-        }
-        return null;
-    };
+        const CustomTooltip = ({ active, payload, label }: {
+            active?: boolean;
+            payload?: Array<{ value: number; payload: ChartDataPoint }>;
+            label?: string;
+        }) => {
+            if (active && payload && payload.length) {
+                // Convertir label en nombre pour la comparaison
+                const yearNumber = label ? parseInt(label, 10) : 0;
+                // Trouver l'événement historique correspondant à cette année, s'il existe
+                const event = historicalEvents.find(e => e.year === yearNumber);
+        
+                return (
+                    <div className="bg-[#333] p-3 border border-gray-600 rounded shadow-lg">
+                        <p className="font-bold text-white">{`Année: ${label}`}</p>
+                        <p className="text-blue-400">{`Croissance du PIB: ${payload[0].value.toFixed(2)}%`}</p>
+                        <p className="text-green-400">{`PIB: ${(payload[0].payload.gdp / 1000000).toFixed(2)} M$`}</p>
+                        {event && (
+                            <p className="mt-2 text-yellow-400">{`Événement: ${event.name}`}</p>
+                        )}
+                    </div>
+                );
+            }
+            return null;
+        };
 
     return (
         <div className="min-h-screen w-full bg-[#212121] text-gray-200 p-4 md:p-8 flex flex-col gap-8">
@@ -369,9 +375,9 @@ export default function CyclesEconomiquesPage() {
                             <LineChart
                                 data={chartData}
                                 margin={{ top: 20, right: 30, left: 20, bottom: 65 }}
-                                onMouseMove={(data: any) => {
+                                onMouseMove={(data) => {
                                     if (data && data.activeLabel) {
-                                        setHoveredYear(data.activeLabel);
+                                        setHoveredYear(parseInt(data.activeLabel));
                                     }
                                 }}
                                 onMouseLeave={() => setHoveredYear(null)}
@@ -458,29 +464,29 @@ export default function CyclesEconomiquesPage() {
                     <h2 className="text-lg font-semibold text-white">Interprétation des Cycles Économiques</h2>
                 </div>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    L'analyse des cycles économiques de Madagascar révèle une économie caractérisée par une forte volatilité
+                    L&apos;analyse des cycles économiques de Madagascar révèle une économie caractérisée par une forte volatilité
                     et une vulnérabilité prononcée aux chocs exogènes et aux crises politiques internes. La croissance
                     du PIB malgache se distingue par des fluctuations importantes, reflétant la fragilité structurelle
-                    de l'économie nationale.
+                    de l&apos;économie nationale.
                 </p>
                 <blockquote className="border-l-4 border-blue-400 pl-4 italic text-gray-400 mt-2">
-                    "Les cycles économiques malgaches sont fortement corrélés aux événements politiques internes
-                    et aux conditions économiques mondiales, démontrant la double vulnérabilité de l'économie nationale."
+                    {'"'}Les cycles économiques malgaches sont fortement corrélés aux événements politiques internes
+                    et aux conditions économiques mondiales, démontrant la double vulnérabilité de l&apos;économie nationale.{'"'}
                 </blockquote>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
-                    Plusieurs phases distinctes sont identifiables dans l'histoire économique du pays :
+                    Plusieurs phases distinctes sont identifiables dans l&apos;histoire économique du pays :
                 </p>
                 <ul className="list-disc pl-5 text-gray-300 text-sm md:text-base leading-relaxed">
                     <li><span className="font-semibold">1960-1972 :</span> Période post-indépendance relativement stable avec une croissance modérée.</li>
-                    <li><span className="font-semibold">1973-1980 :</span> Forte volatilité économique marquée par des pics de croissance suivis de contractions brutales, coïncidant avec les chocs pétroliers mondiaux et l'expérience socialiste malgache.</li>
-                    <li><span className="font-semibold">1981-1982 :</span> Récession majeure liée à la crise économique et à l'ajustement structurel.</li>
+                    <li><span className="font-semibold">1973-1980 :</span> Forte volatilité économique marquée par des pics de croissance suivis de contractions brutales, coïncidant avec les chocs pétroliers mondiaux et l&apos;expérience socialiste malgache.</li>
+                    <li><span className="font-semibold">1981-1982 :</span> Récession majeure liée à la crise économique et à l&apos;ajustement structurel.</li>
                     <li><span className="font-semibold">2002 :</span> Contraction sévère du PIB suite à la crise politique post-électorale.</li>
-                    <li><span className="font-semibold">2009 :</span> Récession importante causée par le coup d'état et la crise politique, amplifiée par la crise financière mondiale.</li>
-                    <li><span className="font-semibold">2020 :</span> Impact négatif significatif de la pandémie de COVID-19 sur l'économie malgache.</li>
+                    <li><span className="font-semibold">2009 :</span> Récession importante causée par le coup d&apos;état et la crise politique, amplifiée par la crise financière mondiale.</li>
+                    <li><span className="font-semibold">2020 :</span> Impact négatif significatif de la pandémie de COVID-19 sur l&apos;économie malgache.</li>
                 </ul>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
                     Cette analyse démontre que les crises politiques internes ont systématiquement un impact plus sévère
-                    sur l'économie malgache que les crises économiques mondiales, soulignant l'importance de la stabilité
+                    sur l&apos;économie malgache que les crises économiques mondiales, soulignant l&apos;importance de la stabilité
                     institutionnelle pour le développement économique du pays.
                 </p>
 
@@ -508,7 +514,7 @@ export default function CyclesEconomiquesPage() {
                                     <td className="px-4 py-2 whitespace-nowrap">2008-2010</td>
                                     <td className="px-4 py-2 whitespace-nowrap">3 ans</td>
                                     <td className="px-4 py-2 whitespace-nowrap">-5.3%</td>
-                                    <td className="px-4 py-2 whitespace-nowrap">Coup d'état et crise financière mondiale</td>
+                                    <td className="px-4 py-2 whitespace-nowrap">Coup d&apos;état et crise financière mondiale</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 whitespace-nowrap">1981-1983</td>
@@ -541,6 +547,6 @@ export default function CyclesEconomiquesPage() {
                 <p>Sources:  Banque mondiale, FMI | Dernière mise à jour: 2023</p>
             </div>
         </div>
-     
+
     );
 }

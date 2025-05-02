@@ -5,8 +5,7 @@ import {
   AlertTriangle, 
   TrendingUp, 
   Globe,
-  CreditCard,
-  ArrowRight,
+  CreditCard, 
   DollarSign,
   ChevronRight
 } from 'lucide-react';
@@ -78,7 +77,7 @@ export default function ThematicAnalysisPage() {
           <h1 className="text-3xl md:text-4xl font-bold">Analyses Thématiques</h1>
         </div>
         <p className="text-gray-400 max-w-3xl mx-auto">
-          Explorez des analyses spécifiques sur des thèmes clés affectant l'économie 
+          Explorez des analyses spécifiques sur des thèmes clés affectant l&apos;économie 
           et le système financier malgache.
         </p>
       </div>

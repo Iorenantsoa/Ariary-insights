@@ -215,9 +215,9 @@ const itemVariants = {
 
 export default function RapportPage() {
   const [activeTab, setActiveTab] = useState('analyse');
-  const [expandedSection, setExpandedSection] = useState(null);
+  const [expandedSection, setExpandedSection] = useState<string | number | null>(null);
 
-  const toggleSection = (id:any) => {
+  const toggleSection = (id:string| number) => {
     if (expandedSection === id) {
       setExpandedSection(null);
     } else {

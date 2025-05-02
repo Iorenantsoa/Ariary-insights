@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Cell } from 'recharts';
-import { Activity, TrendingDown, TrendingUp, Info, Calendar, Filter, ShoppingBag } from 'lucide-react';
+import { Activity, Info, Calendar, Filter, ShoppingBag } from 'lucide-react';
 
 // Types
 interface ChartDataPoint {
@@ -14,10 +14,10 @@ interface ChartDataPoint {
     imports: number;
 }
 
-interface HistoricalEvent {
-    year: number;
-    name: string;
-}
+// interface HistoricalEvent {
+//     year: number;
+//     name: string;
+// }
 
 type Period = 'all' | '10y' | '5y';
 
@@ -115,11 +115,22 @@ const commercialBalanceData = rawData.map(item => {
         imports: item.imports
     };
 });
-
+type CustomTooltipProps = {
+    active?: boolean;
+    payload?: {
+        value: number;
+        payload: {
+            exports: number;
+            imports: number;
+            balance: number;
+        };
+    }[];
+    label?: string | number;
+};
 export default function BalanceCommercialePage() {
     const [selectedPeriod, setSelectedPeriod] = useState<Period>('all');
     const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
-    const [hoveredYear, setHoveredYear] = useState<number | null>(null);
+    const [, setHoveredYear] = useState<number | null>(null);
 
     // Statistiques calculées
     const calculateStats = () => {
@@ -175,7 +186,7 @@ export default function BalanceCommercialePage() {
         setChartData(filteredData);
     }, [selectedPeriod]);
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         if (active && payload && payload.length) {
             return (
                 <div className="bg-[#333] p-3 border border-gray-600 rounded shadow-lg">
@@ -284,9 +295,12 @@ export default function BalanceCommercialePage() {
                             <BarChart
                                 data={chartData}
                                 margin={{ top: 20, right: 30, left: 20, bottom: 65 }}
-                                onMouseMove={(data: any) => {
-                                    if (data && data.activeLabel) {
-                                        setHoveredYear(data.activeLabel);
+                                onMouseMove={(data: { activeLabel?: number | string }) => {
+                                    if (data && data.activeLabel !== undefined) {
+                                        const year = typeof data.activeLabel === "string" ? parseInt(data.activeLabel, 10) : data.activeLabel;
+                                        if (!isNaN(year)) {
+                                            setHoveredYear(year);
+                                        }
                                     }
                                 }}
                                 onMouseLeave={() => setHoveredYear(null)}
@@ -372,7 +386,7 @@ export default function BalanceCommercialePage() {
                 </div>
             </div>
 
-            
+
             {/* Interprétation */}
             <div className="w-full max-w-7xl mx-auto bg-[#262626] border border-[#333] rounded-2xl p-6 shadow-lg flex flex-col gap-4">
                 <div className="flex items-center mb-2">
@@ -380,25 +394,25 @@ export default function BalanceCommercialePage() {
                     <h2 className="text-lg font-semibold text-white">Interprétation</h2>
                 </div>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    L'analyse de la balance commerciale de Madagascar révèle un déficit structurel persistant depuis 1960. Ce déficit
-                    commercial chronique traduit une dépendance aux importations qui dépasse constamment les capacités d'exportation du pays.
+                    L&apos;analyse de la balance commerciale de Madagascar révèle un déficit structurel persistant depuis 1960. Ce déficit
+                    commercial chronique traduit une dépendance aux importations qui dépasse constamment les capacités d&apos;exportation du pays.
                 </p>
                 <blockquote className="border-l-4 border-blue-400 pl-4 italic text-gray-400 mt-2">
-                    "Le déficit commercial de Madagascar s'est aggravé à partir des années 1970, avec une détérioration particulièrement
-                    marquée pendant les périodes d'instabilité politique et économique."
+                &quot;Le déficit commercial de Madagascar s&apos;est aggravé à partir des années 1970, avec une détérioration particulièrement
+                    marquée pendant les périodes d&apos;instabilité politique et économique.&quot;
                 </blockquote>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
                     Plusieurs tendances et phénomènes sont observables :
                 </p>
                 <ul className="list-disc pl-5 text-gray-300 text-sm md:text-base leading-relaxed">
-                    <li>Les crises politiques (1972, 1991, 2002, 2009) sont systématiquement accompagnées d'une dégradation de la balance commerciale.</li>
-                    <li>La période 1979-1980 marque le déficit record (-15.80% du PIB en 1979), coïncidant avec la fin de la politique de nationalisation et d'importantes difficultés économiques.</li>
-                    <li>La période post-2007 montre une aggravation constante du déficit commercial, accentuée notamment par les besoins croissants en investissements et importations liés aux projets d'infrastructure.</li>
-                    <li>La crise de la COVID-19 en 2020 a provoqué un repli des exportations tout en maintenant un niveau élevé d'importations.</li>
+                    <li>Les crises politiques (1972, 1991, 2002, 2009) sont systématiquement accompagnées d&apos;une dégradation de la balance commerciale.</li>
+                    <li>La période 1979-1980 marque le déficit record (-15.80% du PIB en 1979), coïncidant avec la fin de la politique de nationalisation et d&apos;importantes difficultés économiques.</li>
+                    <li>La période post-2007 montre une aggravation constante du déficit commercial, accentuée notamment par les besoins croissants en investissements et importations liés aux projets d&apos;infrastructure.</li>
+                    <li>La crise de la COVID-19 en 2020 a provoqué un repli des exportations tout en maintenant un niveau élevé d&apos;importations.</li>
                 </ul>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
-                    Cette analyse suggère que l'économie malgache reste fortement vulnérable aux chocs extérieurs et peine à développer
-                    une base d'exportation suffisamment diversifiée et à forte valeur ajoutée pour équilibrer sa balance commerciale.
+                    Cette analyse suggère que l&apos;économie malgache reste fortement vulnérable aux chocs extérieurs et peine à développer
+                    une base d&apos;exportation suffisamment diversifiée et à forte valeur ajoutée pour équilibrer sa balance commerciale.
                 </p>
 
                 {/* Table comparative */}
@@ -428,7 +442,7 @@ export default function BalanceCommercialePage() {
                                     <td className="px-4 py-2 whitespace-nowrap">-9.83%</td>
                                     <td className="px-4 py-2 whitespace-nowrap">2,433.56</td>
                                     <td className="px-4 py-2 whitespace-nowrap">4,120.82</td>
-                                    <td className="px-4 py-2 whitespace-nowrap">Crise financière mondiale et coup d'état</td>
+                                    <td className="px-4 py-2 whitespace-nowrap">Crise financière mondiale et coup &apos;état</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 whitespace-nowrap">2017-2019</td>

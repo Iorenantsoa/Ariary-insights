@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Head from 'next/head';
+import { useState, useEffect } from 'react'; 
 import {
     LineChart,
     Line,
@@ -241,7 +240,7 @@ export default function Home() {
                 <div className="bg-[#262626] border border-[#333] rounded-xl p-4 shadow-md mt-8">
                     <h2 className="text-xl font-semibold mb-4 text-blue-400">Analyse des Résultats</h2>
                     <div className="space-y-4 text-gray-300">
-                        <p>Notre analyse révèle plusieurs périodes distinctes de forte volatilité du taux de change, qui peuvent être interprétées comme des indicateurs de crises économiques ou de périodes d'instabilité significative.</p>
+                        <p>Notre analyse révèle plusieurs périodes distinctes de forte volatilité du taux de change, qui peuvent être interprétées comme des indicateurs de crises économiques ou de périodes d`&apos;instabilité significative.</p>
 
                         <h3 className="text-lg font-medium text-white mt-4">Observations clés :</h3>
                         <ul className="list-disc pl-5 space-y-2">
@@ -253,7 +252,7 @@ export default function Home() {
 
                         <h3 className="text-lg font-medium text-white mt-4">Implications :</h3>
                         <ul className="list-disc pl-5 space-y-2">
-                            <li>La forte volatilité du taux de change constitue un risque important pour le commerce international et l'investissement.</li>
+                            <li>La forte volatilité du taux de change constitue un risque important pour le commerce international et l`&apos;investissement.</li>
                             <li>Les périodes identifiées suggèrent des moments où des mesures de stabilisation économique auraient été nécessaires.</li>
                             <li>La corrélation entre volatilité du taux de change et autres indicateurs économiques négatifs indique une vulnérabilité systémique.</li>
                         </ul>

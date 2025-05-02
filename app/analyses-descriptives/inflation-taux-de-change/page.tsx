@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { BarChart2, TrendingUp, Info, Calendar, Filter, Activity } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, TooltipProps } from 'recharts';
+import { TrendingUp, Info, Calendar, Filter, Activity } from 'lucide-react';
 
 // Types
-interface DataPoint {
-    year: number;
-    rate: number;
-}
+// interface DataPoint {
+//     year: number;
+//     rate: number;
+// }
 
 interface ChartDataPoint {
     year: number;
@@ -16,10 +16,10 @@ interface ChartDataPoint {
     rateChange?: number;
 }
 
-interface HistoricalEvent {
-    year: number;
-    name: string;
-}
+// interface HistoricalEvent {
+//     year: number;
+//     name: string;
+// }
 
 type Period = 'all' | '10y' | '5y';
 
@@ -167,10 +167,20 @@ const inflationData = [
     { year: 2023, inflation: 9.87 }
 ];
 
+interface CustomTooltipProps extends TooltipProps<number, string> {
+    active?: boolean;
+    payload?: Array<{
+        value: number;
+        dataKey: string;
+        name?: string;
+    }>;
+    label?: string;
+}
+
 export default function InflationExchangeRatePage() {
     const [selectedPeriod, setSelectedPeriod] = useState<Period>('all');
     const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
-    const [hoveredYear, setHoveredYear] = useState<number | null>(null);
+    const [, setHoveredYear] = useState<number | null>(null);
 
     // Stats calculés
     const keyStats = {
@@ -220,10 +230,10 @@ export default function InflationExchangeRatePage() {
         setChartData(data);
     }, [selectedPeriod]);
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         if (active && payload && payload.length) {
-            const inflation = payload.find((p: any) => p.dataKey === 'inflation');
-            const rateChange = payload.find((p: any) => p.dataKey === 'rateChange');
+            const inflation = payload.find((p) => p.dataKey === 'inflation');
+            const rateChange = payload.find((p) => p.dataKey === 'rateChange');
             return (
                 <div className="bg-[#333] p-3 border border-gray-600 rounded shadow-lg">
                     <p className="font-bold text-white">{`Année: ${label}`}</p>
@@ -241,14 +251,14 @@ export default function InflationExchangeRatePage() {
 
     return (
         <div className="min-h-screen w-full bg-[#212121] text-gray-200 p-4 md:p-8 flex flex-col gap-8">
-            
+
             <div className="max-w-7xl mx-auto text-center">
                 <div className="flex items-center justify-center mb-4">
                     <Activity className="w-8 h-8 mr-3 text-blue-400" />
                     <h1 className="text-2xl md:text-4xl font-bold text-white">Relation entre Inflation et Taux de Change</h1>
                 </div>
                 <p className="text-gray-400 max-w-3xl mx-auto text-sm md:text-base">
-                    Analyse de la relation entre l'inflation annuelle et les variations du taux de change Ariary/USD de Madagascar depuis 1960.
+                    Analyse de la relation entre l&apos;inflation annuelle et les variations du taux de change Ariary/USD de Madagascar depuis 1960.
                 </p>
             </div>
 
@@ -304,7 +314,7 @@ export default function InflationExchangeRatePage() {
                         <div></div>
                     </div>
                     <div className="bg-[#262626] border border-[#333] rounded-xl p-4 shadow-md flex justify-between flex-col">
-                        <p className="text-xs text-gray-400 mb-1">Pic d'inflation</p>
+                        <p className="text-xs text-gray-400 mb-1">Pic d&apos;inflation</p>
                         <div>
                             <p className="text-xl md:text-3xl font-bold text-yellow-400">{keyStats.highestInflation}</p>
                             <p className="text-xs text-gray-500">Année la plus instable</p>
@@ -332,10 +342,11 @@ export default function InflationExchangeRatePage() {
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart
                                 data={chartData}
-                                margin={{ top:5, right: 30, left: 20, bottom: 0 }} 
-                                onMouseMove={(data: any) => {
-                                    if (data && data.activeLabel) {
-                                        setHoveredYear(data.activeLabel);
+                                margin={{ top: 5, right: 30, left: 20, bottom: 0 }}
+                                onMouseMove={(data: { activeLabel?: string }) => {
+                                    const year = Number(data.activeLabel);
+                                    if (!isNaN(year)) {
+                                        setHoveredYear(year);
                                     }
                                 }}
                                 onMouseLeave={() => setHoveredYear(null)}
@@ -380,7 +391,7 @@ export default function InflationExchangeRatePage() {
                                                 fill: '#666',
                                                 fontSize: 10,
                                                 angle: -90,
-                                                offset: 15 
+                                                offset: 15
                                             }}
                                         />
                                     );
@@ -418,29 +429,29 @@ export default function InflationExchangeRatePage() {
                     <h2 className="text-lg font-semibold text-white">Interprétation</h2>
                 </div>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    Le graphique montre une relation modérée positive (corrélation de 0.564) entre l'inflation et la dépréciation de l'Ariary.
-                    Cette relation confirme la théorie économique suggérant qu'une hausse de l'inflation domestique tend à affaiblir la monnaie locale.
+                    Le graphique montre une relation modérée positive (corrélation de 0.564) entre l&apos;inflation et la dépréciation de l&apos;Ariary.
+                    Cette relation confirme la théorie économique suggérant qu&apos;une hausse de l&apos;inflation domestique tend à affaiblir la monnaie locale.
                 </p>
                 <blockquote className="border-l-4 border-blue-400 pl-4 italic text-gray-400 mt-2">
-                    "Les périodes de forte inflation, notamment 1994-1995 (environ 49%) et au début des années 1980 (plus de 30%),
-                    coïncident souvent avec des phases d'accélération de la dépréciation monétaire."
+                    &quot;Les périodes de forte inflation, notamment 1994-1995 (environ 49%) et au début des années 1980 (plus de 30%),
+                    coïncident souvent avec des phases d&apos;accélération de la dépréciation monétaire.&quot;
                 </blockquote>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
                     Plusieurs phénomènes intéressants sont observables :
                 </p>
                 <ul className="list-disc pl-5 text-gray-300 text-sm md:text-base leading-relaxed">
-                    <li>Les chocs politiques (1972, 1991, 2002, 2009) sont généralement suivis par des pics d'inflation et d'accélération de la dépréciation monétaire.</li>
-                    <li>L'année 2003 présente une anomalie avec une déflation (-1.70%) mais une dépréciation continue de la monnaie, suggérant l'influence d'autres facteurs extérieurs.</li>
-                    <li>La période post-2015 montre une inflation modérée mais une dépréciation plus forte et constante de l'Ariary, indiquant un possible découplage partiel entre ces deux variables.</li>
+                    <li>Les chocs politiques (1972, 1991, 2002, 2009) sont généralement suivis par des pics d&apos;inflation et d&apos;accélération de la dépréciation monétaire.</li>
+                    <li>L&apos;année 2003 présente une anomalie avec une déflation (-1.70%) mais une dépréciation continue de la monnaie, suggérant l&apos;influence d&apos;autres facteurs extérieurs.</li>
+                    <li>La période post-2015 montre une inflation modérée mais une dépréciation plus forte et constante de l&apos;Ariary, indiquant un possible découplage partiel entre ces deux variables.</li>
                 </ul>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
-                    Il faut noter que cette corrélation de 0.564 indique que d'autres facteurs importants influencent également le taux de change,
-                    comme la balance commerciale, les politiques monétaires, les flux d'investissements étrangers et la confiance des marchés internationaux.
+                    Il faut noter que cette corrélation de 0.564 indique que d&apos;autres facteurs importants influencent également le taux de change,
+                    comme la balance commerciale, les politiques monétaires, les flux d&apos;investissements étrangers et la confiance des marchés internationaux.
                 </p>
 
                 {/* Table comparative */}
                 <div className="mt-4">
-                    <h3 className="text-sm font-medium text-gray-300 mb-2">Périodes critiques et leur impact sur l'inflation et le taux de change</h3>
+                    <h3 className="text-sm font-medium text-gray-300 mb-2">Périodes critiques et leur impact sur l&apos;inflation et le taux de change</h3>
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-700 text-sm">
                             <thead>

@@ -59,7 +59,7 @@ export default function ImpactAnalysis() {
           <h2 className="text-2xl font-bold text-blue-400 mb-4">Analyse des chocs exogènes et leur impact</h2>
           <p className="text-gray-300">
             Cette analyse compare les principales variables économiques de Madagascar pendant les périodes de chocs exogènes 
-            par rapport aux périodes sans chocs. Les résultats montrent comment ces chocs ont influencé l'inflation, le taux de change 
+            par rapport aux périodes sans chocs. Les résultats montrent comment ces chocs ont influencé l&apos;inflation, le taux de change 
             et la balance commerciale.
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function ImpactAnalysis() {
                   <div className="mt-4">
                     <p className="text-gray-300">
                       Cette observation pourrait suggérer que les politiques monétaires mises en place pendant les périodes de choc 
-                      ont été relativement efficaces pour contrôler l'inflation, malgré les perturbations économiques.
+                      ont été relativement efficaces pour contrôler l&apos;inflation, malgré les perturbations économiques.
                     </p>
                   </div>
                 )}
@@ -158,7 +158,7 @@ export default function ImpactAnalysis() {
                   <div className="mt-4">
                     <p className="text-gray-300">
                       La dépréciation significative de la monnaie nationale pendant les périodes de choc reflète 
-                      la vulnérabilité de l'économie malgache aux chocs exogènes et la pression sur les réserves de change.
+                      la vulnérabilité de l&apos;économie malgache aux chocs exogènes et la pression sur les réserves de change.
                     </p>
                   </div>
                 )}
@@ -166,9 +166,9 @@ export default function ImpactAnalysis() {
                 {item.id === 'balance' && (
                   <div className="mt-4">
                     <p className="text-gray-300">
-                      Le déficit commercial s'aggrave considérablement pendant les périodes de choc, ce qui indique une 
+                      Le déficit commercial s&apos;aggrave considérablement pendant les périodes de choc, ce qui indique une 
                       perturbation des exportations et/ou une augmentation des importations, possiblement liée à la nécessité 
-                      d'importer des biens essentiels dans un contexte de crise.
+                      d&apos;importer des biens essentiels dans un contexte de crise.
                     </p>
                   </div>
                 )}

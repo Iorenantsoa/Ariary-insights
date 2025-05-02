@@ -90,7 +90,7 @@ export default function DescriptiveAnalysisPage() {
         </div>
         <p className="text-gray-400 max-w-3xl mx-auto">
           Explorez nos analyses détaillées des indicateurs économiques clés pour comprendre 
-          les tendances et facteurs qui influencent l'économie malgache.
+          les tendances et facteurs qui influencent l&apos;économie malgache.
         </p>
       </div>
 
@@ -128,7 +128,7 @@ export default function DescriptiveAnalysisPage() {
       <div className="max-w-7xl mx-auto mt-12 text-center">
         <p className="text-gray-500 text-sm">
           Les données présentées sont basées sur les statistiques officielles de la Banque Centrale de Madagascar
-          et d'autres institutions financières internationales.
+          et d&apos;autres institutions financières internationales.
         </p>
       </div>
     </div>

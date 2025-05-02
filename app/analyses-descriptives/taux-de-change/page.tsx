@@ -5,10 +5,10 @@ import { BarChart2, TrendingDown, Info, Calendar, Filter } from 'lucide-react';
 import ExchangeRateChart from '@/app/components/Accueil/ExchangeRateChart';
 
 // Types
-type DataPoint = {
-    year: number;
-    rate: number;
-};
+// type DataPoint = {
+//     year: number;
+//     rate: number;
+// };
 
 type Period = 'all' | '10y' | '5y';
 
@@ -34,7 +34,7 @@ export default function TauxDeChangePage() {
                     <h1 className="text-2xl md:text-4xl font-bold text-white">Analyse du Taux de Change Ariary/USD</h1>
                 </div>
                 <p className="text-gray-400 max-w-3xl mx-auto text-sm md:text-base">
-                    Explorez l'évolution du taux de change de l'Ariary malgache face au Dollar américain, depuis l'indépendance jusqu'aux projections futures.
+                    Explorez l&apos;évolution du taux de change de l&apos;Ariary malgache face au Dollar américain, depuis l&apos;indépendance jusqu&apos;aux projections futures.
                 </p>
             </div>
 
@@ -123,18 +123,18 @@ export default function TauxDeChangePage() {
                     <h2 className="text-lg font-semibold text-white">Interprétation</h2>
                 </div>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    Depuis l'indépendance, la monnaie malgache s'est progressivement dépréciée face au dollar, avec des périodes d'accélération marquées par l'instabilité politique et les chocs économiques mondiaux.
+                    Depuis l&apos;indépendance, la monnaie malgache s&apos;est progressivement dépréciée face au dollar, avec des périodes d&apos;accélération marquées par l&apos;instabilité politique et les chocs économiques mondiaux.
                 </p>
                 <blockquote className="border-l-4 border-blue-400 pl-4 italic text-gray-400 mt-2">
-                    "Les années 1980-1990 ont vu une explosion de la dévaluation, coïncidant avec des programmes d'ajustement structurel imposés par les bailleurs internationaux."
+                &quot;Les années 1980-1990 ont vu une explosion de la dévaluation, coïncidant avec des programmes d&apos;ajustement structurel imposés par les bailleurs internationaux.&quot;
                 </blockquote>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
-                    Plus récemment, des facteurs tels que la pandémie de COVID-19 et les tensions géopolitiques ont maintenu la pression sur l'Ariary, justifiant des prévisions prudentes jusqu'en 2028.
+                    Plus récemment, des facteurs tels que la pandémie de COVID-19 et les tensions géopolitiques ont maintenu la pression sur l&apos;Ariary, justifiant des prévisions prudentes jusqu&apos;en 2028.
                 </p>
 
                 {/* Table comparative */}
                 <div className="mt-4">
-                    <h3 className="text-sm font-medium text-gray-300 mb-2">Comparaison avec d'autres monnaies africaines (Dépréciation depuis 2015)</h3>
+                    <h3 className="text-sm font-medium text-gray-300 mb-2">Comparaison avec d&apos;autres monnaies africaines (Dépréciation depuis 2015)</h3>
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-700 text-sm">
                             <thead>

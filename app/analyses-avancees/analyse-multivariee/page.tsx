@@ -1,10 +1,41 @@
 "use client"
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-export default function AnalyseMultivariee() {
-  const [activeTab, setActiveTab] = useState('resultats');
+// Définition des interfaces TypeScript
+interface SignificantFactor {
+  name: string;
+  coef: number;
+  pValue: number;
+  significance: string;
+}
 
-  const resultats = {
+interface OtherFactor {
+  name: string;
+  coef: number;
+  pValue: number;
+}
+
+interface Diagnostics {
+  durbinWatson: number;
+  conditionNumber: string;
+  multicollinearity: string;
+}
+
+interface ResultatsData {
+  rSquared: number;
+  adjRSquared: number;
+  fStatistic: number;
+  probF: string;
+  numObservations: number;
+  significantFactors: SignificantFactor[];
+  autresFacteurs: OtherFactor[];
+  diagnostics: Diagnostics;
+}
+
+export default function AnalyseMultivariee(): React.ReactElement {
+  const [activeTab, setActiveTab] = useState<string>('resultats');
+
+  const resultats: ResultatsData = {
     rSquared: 0.915,
     adjRSquared: 0.895,
     fStatistic: 45.15,
@@ -60,7 +91,7 @@ export default function AnalyseMultivariee() {
 
       {/* Navigation par onglets */}
       <div className="max-w-6xl mx-auto w-full">
-        <div className="flex border-b border-gray-700 mb-6">
+        <div className="flex border-b border-[#333] mb-6">
           <button 
             onClick={() => setActiveTab('resultats')}
             className={`px-4 py-2 font-medium ${activeTab === 'resultats' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-gray-200'}`}
@@ -82,26 +113,26 @@ export default function AnalyseMultivariee() {
         </div>
 
         {/* Contenu des onglets */}
-        <div className="max-w-6xl mx-auto w-full bg-[#262626] border border-[#333] rounded-xl p-4 p-6">
+        <div className="max-w-6xl mx-auto w-full bg-[#262626] border border-[#333] rounded-xl p-6">
           {activeTab === 'resultats' && (
             <div className="space-y-6">
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-blue-400 mb-4">Qualité du modèle</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <div className="bg-[#262626] border border-[#333] rounded-xl  p-6">
                     <p className="text-gray-400 text-sm">R² ajusté</p>
                     <p className="text-3xl font-bold text-white">{resultats.adjRSquared}</p>
                     <p className="text-xs text-gray-500 mt-2">Pourcentage de variance expliquée</p>
                   </div>
-                  <div className="bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <div className="bg-[#262626] border border-[#333] rounded-xl  p-6">
                     <p className="text-gray-400 text-sm">F-statistique</p>
                     <p className="text-3xl font-bold text-white">{resultats.fStatistic}</p>
                     <p className="text-xs text-gray-500 mt-2">Significativité globale du modèle</p>
                   </div>
-                  <div className="bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <div className="bg-[#262626] border border-[#333] rounded-xl  p-6">
                     <p className="text-gray-400 text-sm">Observations</p>
                     <p className="text-3xl font-bold text-white">{resultats.numObservations}</p>
-                    <p className="text-xs text-gray-500 mt-2">Nombre d'observations analysées</p>
+                    <p className="text-xs text-gray-500 mt-2">Nombre d&apos;observations analysées</p>
                   </div>
                 </div>
               </div>
@@ -109,7 +140,7 @@ export default function AnalyseMultivariee() {
               <div>
                 <h2 className="text-xl font-semibold text-blue-400 mb-4">Facteurs significatifs</h2>
                 <div className="overflow-x-auto">
-                  <table className="min-w-full bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <table className="min-w-full bg-[#262626]  border border-[#333] rounded-xl">
                     <thead>
                       <tr className="border-b border-[#333]">
                         <th className="py-3 px-4 text-left text-sm font-medium text-gray-400">Variable</th>
@@ -136,7 +167,7 @@ export default function AnalyseMultivariee() {
                 </div>
               </div>
 
-              <div className="bg-[#262626] border border-[#333] rounded-xl p-4 mt-6">
+              <div className="bg-[#262626] border border-[#333] rounded-xl  p-6 mt-6">
                 <div className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-yellow-400 mr-2">
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
@@ -157,42 +188,42 @@ export default function AnalyseMultivariee() {
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-blue-400 mb-4">Interprétation des résultats</h2>
                 
-                <div className="bg-[#262626] border border-[#333] rounded-xl p-4 mt-6 mb-6">
+                <div className="bg-[#262626] border border-[#333] rounded-xl  p-6 mt-6 mb-6">
                   <h3 className="text-lg font-medium text-white mb-3">Qualité globale du modèle</h3>
                   <p className="text-gray-300 mb-4">
                     Avec un R² ajusté de <span className="text-blue-400 font-medium">0.895</span>, le modèle explique environ <span className="text-blue-400 font-medium">89.5%</span> de la variance du taux de change à Madagascar. La significativité globale est très élevée (p-valeur de F-statistique: <span className="text-blue-400 font-medium">3.05e-19</span>), ce qui confirme la pertinence du modèle.
                   </p>
                 </div>
 
-                <div className="bg-[#262626] border border-[#333] rounded-xl p-4 mt-6 mb-6">
+                <div className="bg-[#262626] border border-[#333] rounded-xl  p-6 mt-6 mb-6">
                   <h3 className="text-lg font-medium text-white mb-3">Facteurs influençant significativement le taux de change</h3>
                   
                   <div className="mb-4">
-                    <h4 className="text-md font-medium text-blue-400">1. Réserves totales (incluant l'or)</h4>
+                    <h4 className="text-md font-medium text-blue-400">1. Réserves totales (incluant l&apos;or)</h4>
                     <p className="text-gray-300 mt-1">
-                      Ce facteur est statistiquement significatif (p=0.027) avec un coefficient positif, indiquant qu'une augmentation des réserves internationales est associée à une dépréciation du taux de change (augmentation de la valeur en ariary pour 1 USD). Ce résultat peut sembler contre-intuitif, car généralement des réserves plus importantes renforcent la monnaie nationale.
+                      Ce facteur est statistiquement significatif (p=0.027) avec un coefficient positif, indiquant qu&apos;une augmentation des réserves internationales est associée à une dépréciation du taux de change (augmentation de la valeur en ariary pour 1 USD). Ce résultat peut sembler contre-intuitif, car généralement des réserves plus importantes renforcent la monnaie nationale.
                     </p>
                   </div>
                   
                   <div>
-                    <h4 className="text-md font-medium text-blue-400">2. Dette extérieure (% du RNB) avec décalage d'un an</h4>
+                    <h4 className="text-md font-medium text-blue-400">2. Dette extérieure (% du RNB) avec décalage d&apos;un an</h4>
                     <p className="text-gray-300 mt-1">
-                      Ce facteur est marginalement significatif (p=0.078) avec un coefficient positif. Une augmentation de la dette extérieure de l'année précédente est associée à une dépréciation de l'ariary par rapport au dollar. Ce résultat est conforme aux attentes économiques: un endettement plus élevé augmente le risque pays et peut affecter négativement la confiance dans la monnaie nationale.
+                      Ce facteur est marginalement significatif (p=0.078) avec un coefficient positif. Une augmentation de la dette extérieure de l&apos;année précédente est associée à une dépréciation de l&apos;ariary par rapport au dollar. Ce résultat est conforme aux attentes économiques: un endettement plus élevé augmente le risque pays et peut affecter négativement la confiance dans la monnaie nationale.
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-[#262626] border border-[#333] rounded-xl p-4">
+                <div className="bg-[#262626] border border-[#333] rounded-xl  p-6">
                   <h3 className="text-lg font-medium text-white mb-3">Limites et considérations</h3>
                   <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     <li>
-                      <span className="text-blue-400 font-medium">Multicollinéarité élevée</span> (Condition Number: 4.56e+09) - Certaines variables explicatives sont fortement corrélées entre elles, ce qui peut rendre l'interprétation des coefficients individuels moins fiable.
+                      <span className="text-blue-400 font-medium">Multicollinéarité élevée</span> (Condition Number: 4.56e+09) - Certaines variables explicatives sont fortement corrélées entre elles, ce qui peut rendre l&apos;interprétation des coefficients individuels moins fiable.
                     </li>
                     <li>
-                      <span className="text-blue-400 font-medium">Autocorrélation potentielle</span> (Durbin-Watson: 0.605) - La valeur bien inférieure à 2 suggère une autocorrélation positive des résidus, ce qui pourrait affecter l'efficacité des estimateurs.
+                      <span className="text-blue-400 font-medium">Autocorrélation potentielle</span> (Durbin-Watson: 0.605) - La valeur bien inférieure à 2 suggère une autocorrélation positive des résidus, ce qui pourrait affecter l&apos;efficacité des estimateurs.
                     </li>
                     <li>
-                      Le modèle inclut des variables contemporaines et retardées, ce qui peut compliquer l'interprétation des effets nets.
+                      Le modèle inclut des variables contemporaines et retardées, ce qui peut compliquer l&apos;interprétation des effets nets.
                     </li>
                   </ul>
                 </div>
@@ -206,7 +237,7 @@ export default function AnalyseMultivariee() {
                 <h2 className="text-xl font-semibold text-blue-400 mb-4">Détails de la régression</h2>
                 
                 <div className="overflow-x-auto">
-                  <table className="min-w-full bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <table className="min-w-full bg-[#262626]  border border-[#333] rounded-xl">
                     <thead>
                       <tr className="border-b border-[#333]">
                         <th className="py-3 px-4 text-left text-sm font-medium text-gray-400">Variable</th>
@@ -299,7 +330,7 @@ export default function AnalyseMultivariee() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                  <div className="bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <div className="bg-[#262626] border border-[#333] rounded-xl  p-6">
                     <h3 className="text-lg font-medium text-white mb-3">Statistiques du modèle</h3>
                     <div className="space-y-2">
                       <div className="flex justify-between">
@@ -333,7 +364,7 @@ export default function AnalyseMultivariee() {
                     </div>
                   </div>
 
-                  <div className="bg-[#262626] border border-[#333] rounded-xl p-4">
+                  <div className="bg-[#262626] border border-[#333] rounded-xl  p-6">
                     <h3 className="text-lg font-medium text-white mb-3">Tests diagnostiques</h3>
                     <div className="space-y-2">
                       <div className="flex justify-between">

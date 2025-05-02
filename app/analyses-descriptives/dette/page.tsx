@@ -9,8 +9,10 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-    ReferenceLine
-} from 'recharts';
+    ReferenceLine,
+    TooltipProps
+} from 'recharts'; 
+
 
 // Définition des types
 interface DebtData {
@@ -23,7 +25,16 @@ interface Event {
     year: number;
     label: string;
 }
-
+interface CustomTooltipProps extends TooltipProps<number, string> {
+    active?: boolean;
+    payload?: Array<{
+        value: number;
+        name: string;
+        dataKey: string;
+        // Add other properties if needed
+    }>;
+    label?: string;
+}
 // Périodes de filtrage
 type PeriodFilter = 'all' | 'pre-2000' | 'post-2000' | 'crisis';
 
@@ -130,7 +141,7 @@ const DettePage: React.FC = () => {
     };
 
     // Composant de tooltip personnalisé pour afficher les valeurs précises
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         if (active && payload && payload.length) {
             return (
                 <div className="bg-[#262626] border border-[#333] p-2 text-xs">
@@ -156,7 +167,7 @@ const DettePage: React.FC = () => {
                     <h1 className="text-2xl md:text-4xl font-bold text-white">Analyse de la Dette Extérieure de Madagascar</h1>
                 </div>
                 <p className="text-gray-400 max-w-3xl mx-auto text-sm md:text-base">
-                    Explorez l'évolution de la dette extérieure de Madagascar depuis l'indépendance jusqu'à aujourd'hui, en valeur absolue et en pourcentage du RNB.
+                    Explorez l&apos;évolution de la dette extérieure de Madagascar depuis l&apos;indépendance jusqu&apos;à aujourd&apos;hui, en valeur absolue et en pourcentage du RNB.
                 </p>
             </div>
 
@@ -345,10 +356,10 @@ const DettePage: React.FC = () => {
                     <h2 className="text-lg font-semibold text-white">Interprétation</h2>
                 </div>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    L'évolution de la dette extérieure de Madagascar révèle plusieurs périodes distinctes, fortement influencées par le contexte politique et économique national et international.
+                    L&apos;évolution de la dette extérieure de Madagascar révèle plusieurs périodes distinctes, fortement influencées par le contexte politique et économique national et international.
                 </p>
                 <blockquote className="border-l-4 border-blue-400 pl-4 italic text-gray-400 mt-2">
-                    "La période 1985-1995 a connu une explosion de la dette, atteignant des niveaux critiques dépassant 120% du RNB, coincidant avec les programmes d'ajustement structurel imposés par les institutions financières internationales."
+                &quot;La période 1985-1995 a connu une explosion de la dette, atteignant des niveaux critiques dépassant 120% du RNB, coincidant avec les programmes d&apos;ajustement structurel imposés par les institutions financières internationales.&quot;
                 </blockquote>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
                     Après une période de stabilisation relative dans les années 2000, on observe une nouvelle tendance à la hausse depuis 2019, accentuée par la crise sanitaire mondiale et les défis économiques actuels.

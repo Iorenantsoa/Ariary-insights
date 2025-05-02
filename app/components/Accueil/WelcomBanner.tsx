@@ -24,7 +24,7 @@ export default function SimpleBanner() {
         <div className={`h-1 w-40 md:w-56 bg-blue-400 mx-auto my-3 rounded transition-all duration-1000 delay-300 transform ${isLoaded ? 'scale-x-100' : 'scale-x-0'}`}></div>
         
         <p className={`text-gray-200 text-sm md:text-base max-w-xl mx-auto transition-opacity duration-1000 delay-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          Explorer l'évolution économique de Madagascar à travers ses données (1960-2023)
+          Explorer l&apos;évolution économique de Madagascar à travers ses données (1960-2023)
         </p>
       </div>
 

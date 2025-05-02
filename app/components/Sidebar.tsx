@@ -13,6 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+
 interface SubItem {
   label: string;
   path: string;
@@ -123,6 +124,8 @@ const Sidebar = () => {
   const hasActiveChild = (item: MenuItem) => {
     return item.subItems && item.subItems.some((subItem) => isActive(subItem.path));
   };
+  const activeItem = menuItems.find((item) => item.id === activeMenu);
+  const hasSubItems = activeItem?.subItems && activeItem.subItems.length > 0;
 
   return (
     <>
@@ -153,8 +156,8 @@ const Sidebar = () => {
               <div className="flex items-center justify-center md:justify-start w-full">
                 <span
                   className={`${isActive(item.path) || hasActiveChild(item)
-                      ? "text-blue-300"
-                      : "text-gray-200"
+                    ? "text-blue-300"
+                    : "text-gray-200"
                     }`}
                 >
                   {item.icon}
@@ -178,40 +181,37 @@ const Sidebar = () => {
       </div>
 
       {/* Sous-menus */}
-      {activeMenu &&
-        menuItems.find((item) => item.id === activeMenu)?.subItems.length! > 0 && (
-          <div
-            className="fixed left-20 md:left-64 bg-[#1A1A1A] text-white shadow-lg rounded-r-lg p-4 min-w-64 z-100 opacity-0 animate-fadeIn"
-            style={{
-              top: `${subMenuPosition.top}px`,
-              animation: "fadeIn 0.2s forwards",
-            }}
-            onMouseEnter={() => handleMouseEnter(activeMenu)}
-            onMouseLeave={handleMouseLeave}
-          >
-            <h3 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2 text-gray-100">
-              {menuItems.find((item) => item.id === activeMenu)?.label}
-            </h3>
-            <ul className="space-y-2">
-              {menuItems
-                .find((item) => item.id === activeMenu)
-                ?.subItems.map((subItem, index) => (
-                  <li key={index}>
-                    <Link
-                      href={subItem.path}
-                      className={`block px-3 py-2 rounded transition-colors duration-200
-                        ${isActive(subItem.path)
-                          ? "bg-gray-700 text-blue-500 font-medium"
-                          : "hover:bg-gray-800"
-                        }`}
-                    >
-                      {subItem.label}
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        )}
+      {activeMenu && hasSubItems && (
+        <div
+          className="fixed left-20 md:left-64 bg-[#1A1A1A] text-white shadow-lg rounded-r-lg p-4 min-w-64 z-100 opacity-0 animate-fadeIn"
+          style={{
+            top: `${subMenuPosition.top}px`,
+            animation: "fadeIn 0.2s forwards",
+          }}
+          onMouseEnter={() => handleMouseEnter(activeMenu)}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h3 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2 text-gray-100">
+            {activeItem?.label}
+          </h3>
+          <ul className="space-y-2">
+            {activeItem?.subItems.map((subItem, index) => (
+              <li key={index}>
+                <Link
+                  href={subItem.path}
+                  className={`block px-3 py-2 rounded transition-colors duration-200
+              ${isActive(subItem.path)
+                      ? "bg-gray-700 text-blue-500 font-medium"
+                      : "hover:bg-gray-800"
+                    }`}
+                >
+                  {subItem.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Animation CSS */}
       <style jsx global>{`

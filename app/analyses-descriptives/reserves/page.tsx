@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Bar, ComposedChart } from 'recharts';
-import { BarChart2, TrendingUp, Info, Calendar, Filter, Activity, DollarSign } from 'lucide-react';
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Bar, ComposedChart } from 'recharts';
+import { TrendingUp, Info, Calendar, Filter, DollarSign } from 'lucide-react';
 
 // Types
-interface DataPoint {
-    year: number;
-    reserves: number;
-    reservesMonths: number | null;
-}
+// interface DataPoint {
+//     year: number;
+//     reserves: number;
+//     reservesMonths: number | null;
+// }
 
 interface ChartDataPoint {
     year: number;
@@ -19,10 +19,10 @@ interface ChartDataPoint {
     reservesToGDP?: number;
 }
 
-interface HistoricalEvent {
-    year: number;
-    name: string;
-}
+// interface HistoricalEvent {
+//     year: number;
+//     name: string;
+// }
 
 type Period = 'all' | '20y' | '10y';
 
@@ -123,7 +123,7 @@ const gdpData = [
 export default function ReservesTotalesPage() {
     const [selectedPeriod, setSelectedPeriod] = useState<Period>('all');
     const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
-    const [hoveredYear, setHoveredYear] = useState<number | null>(null);
+    const [, setHoveredYear] = useState<number | null>(null);
 
     // Stats calculés
     const keyStats = {
@@ -165,20 +165,35 @@ export default function ReservesTotalesPage() {
 
         setChartData(data);
     }, [selectedPeriod]);
+    interface TooltipPayloadItem {
+        value: number;
+        dataKey: string;
+    }
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    interface CustomTooltipProps {
+        active?: boolean;
+        payload?: TooltipPayloadItem[];
+        label?: string;
+    }
+    const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         if (active && payload && payload.length) {
+            // Trouver l'item reservesToGDP une seule fois pour éviter la recherche multiple
+            const gdpItem = payload.find((p) => p.dataKey === 'reservesToGDP');
+
             return (
                 <div className="bg-[#333] p-3 border border-gray-600 rounded shadow-lg">
                     <p className="font-bold text-white">{`Année: ${label}`}</p>
+
                     {payload[0] && (
                         <p className="text-blue-400">{`Réserves: ${payload[0].value.toFixed(2)} millions $`}</p>
                     )}
+
                     {payload[1] && payload[1].value !== null && (
                         <p className="text-blue-400">{`Couverture: ${payload[1].value.toFixed(2)} mois d'importations`}</p>
                     )}
-                    {payload.find((p: any) => p.dataKey === 'reservesToGDP') && (
-                        <p className="text-purple-400">{`% du PIB: ${payload.find((p: any) => p.dataKey === 'reservesToGDP').value.toFixed(2)}%`}</p>
+
+                    {gdpItem && (
+                        <p className="text-purple-400">{`% du PIB: ${gdpItem.value.toFixed(2)}%`}</p>
                     )}
                 </div>
             );
@@ -195,7 +210,7 @@ export default function ReservesTotalesPage() {
                     <h1 className="text-2xl md:text-4xl font-bold text-white">Réserves Internationales de Madagascar</h1>
                 </div>
                 <p className="text-gray-400 max-w-3xl mx-auto text-sm md:text-base">
-                    Évolution des réserves totales (incluant l'or) et leur couverture en mois d'importations depuis 1962.
+                    Évolution des réserves totales (incluant l&apos;or) et leur couverture en mois d&apos;importations depuis 1962.
                 </p>
             </div>
 
@@ -254,7 +269,7 @@ export default function ReservesTotalesPage() {
                         <p className="text-xs text-gray-400 mb-1">Couverture moyenne</p>
                         <div>
                             <p className="text-xl  font-bold text-gray-300">{keyStats.avgMonths}</p>
-                            <p className="text-xs text-gray-500">Mois d'importations</p>
+                            <p className="text-xs text-gray-500">Mois d&apos;importations</p>
                         </div>
                         <div></div>
                     </div>
@@ -271,122 +286,123 @@ export default function ReservesTotalesPage() {
 
             {/* Graphique principal */}
             <div className="max-w-7xl mx-auto w-full">
-    <div className="p-4 bg-[#262626] border border-[#333] rounded-xl shadow-md">
-        <h2 className="text-xl font-bold text-white mb-4">
-            Réserves internationales ({selectedPeriod === 'all' ? '1962' : selectedPeriod === '20y' ? '20 dernières années' : '10 dernières années'}-2023)
-        </h2>
-        <div className="w-full h-[450px]">
-            <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart
-                    data={chartData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    onMouseMove={(data: any) => {
-                        if (data && data.activeLabel) {
-                            setHoveredYear(data.activeLabel);
-                        }
-                    }}
-                    onMouseLeave={() => setHoveredYear(null)}
-                >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                    <XAxis
-                        dataKey="year"
-                        angle={-45}
-                        textAnchor="end"
-                        height={60}
-                        interval={selectedPeriod === '10y' ? 0 : selectedPeriod === '20y' ? 2 : 5}
-                        stroke="#ccc"
-                    />
-                    <YAxis
-                        yAxisId="left"
-                        label={{ value: 'Réserves (millions $)', angle: -90, position: 'insideLeft', fill: '#ccc' }}
-                        stroke="#38BDF8"  // bleu clair propre
-                    />
-                    <YAxis
-                        yAxisId="right"
-                        orientation="right"
-                        label={{ value: 'Mois d\'importations', angle: 90, position: 'insideRight', fill: '#ccc' }}
-                        stroke="#38BDF8"
-                    />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend verticalAlign="top" height={36} wrapperStyle={{ color: '#ccc' }} />
-
-                    {/* Événements historiques */}
-                    {historicalEvents.map(event => {
-                        if (selectedPeriod === '10y' && event.year < new Date().getFullYear() - 10) return null;
-                        if (selectedPeriod === '20y' && event.year < new Date().getFullYear() - 20) return null;
-
-                        return (
-                            <ReferenceLine
-                                key={event.year}
-                                x={event.year}
-                                yAxisId="left"
-                                stroke="#6B7280"  // gris moyen, discret
-                                strokeDasharray="3 3"
-                                label={{
-                                    value: event.name,
-                                    position: 'top',
-                                    fill: '#9CA3AF',
-                                    fontSize: 10,
-                                    angle: -90,
-                                    offset: 15
+                <div className="p-4 bg-[#262626] border border-[#333] rounded-xl shadow-md">
+                    <h2 className="text-xl font-bold text-white mb-4">
+                        Réserves internationales ({selectedPeriod === 'all' ? '1962' : selectedPeriod === '20y' ? '20 dernières années' : '10 dernières années'}-2023)
+                    </h2>
+                    <div className="w-full h-[450px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <ComposedChart
+                                data={chartData}
+                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                                onMouseMove={(data: { activeLabel?: string }) => {
+                                    const year = Number(data.activeLabel);
+                                    if (!isNaN(year)) {
+                                        setHoveredYear(year);
+                                    }
                                 }}
-                            />
-                        );
-                    })}
+                                onMouseLeave={() => setHoveredYear(null)}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                                <XAxis
+                                    dataKey="year"
+                                    angle={-45}
+                                    textAnchor="end"
+                                    height={60}
+                                    interval={selectedPeriod === '10y' ? 0 : selectedPeriod === '20y' ? 2 : 5}
+                                    stroke="#ccc"
+                                />
+                                <YAxis
+                                    yAxisId="left"
+                                    label={{ value: 'Réserves (millions $)', angle: -90, position: 'insideLeft', fill: '#ccc' }}
+                                    stroke="#38BDF8"  // bleu clair propre
+                                />
+                                <YAxis
+                                    yAxisId="right"
+                                    orientation="right"
+                                    label={{ value: 'Mois d\'importations', angle: 90, position: 'insideRight', fill: '#ccc' }}
+                                    stroke="#38BDF8"
+                                />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Legend verticalAlign="top" height={36} wrapperStyle={{ color: '#ccc' }} />
 
-                    {/* SEUIL 3 MOIS */}
-                    <ReferenceLine
-                        y={3}
-                        yAxisId="right"
-                        stroke="#F87171"  // rouge clair pour signal d'alerte
-                        strokeDasharray="4 4"
-                        label={{
-                            value: 'Seuil 3 mois',
-                            position: 'right',
-                            fill: '#F87171',
-                            fontSize: 12,
-                            fontWeight: 'bold'
-                        }}
-                    />
+                                {/* Événements historiques */}
+                                {historicalEvents.map(event => {
+                                    if (selectedPeriod === '10y' && event.year < new Date().getFullYear() - 10) return null;
+                                    if (selectedPeriod === '20y' && event.year < new Date().getFullYear() - 20) return null;
 
-                    {/* Barres de réserves */}
-                    <Bar
-                        yAxisId="left"
-                        dataKey="reserves"
-                        fill="#6b7280"  
-                        name="Réserves (millions $)"
-                        barSize={20}
-                        opacity={0.8}
-                    />
+                                    return (
+                                        <ReferenceLine
+                                            key={event.year}
+                                            x={event.year}
+                                            yAxisId="left"
+                                            stroke="#6B7280"  // gris moyen, discret
+                                            strokeDasharray="3 3"
+                                            label={{
+                                                value: event.name,
+                                                position: 'top',
+                                                fill: '#9CA3AF',
+                                                fontSize: 10,
+                                                angle: -90,
+                                                offset: 15
+                                            }}
+                                        />
+                                    );
+                                })}
 
-                    {/* Ligne mois d'importations */}
-                    <Line
-                        yAxisId="right"
-                        type="monotone"
-                        dataKey="reservesMonths"
-                        stroke="#38BDF8"   
-                        activeDot={{ r: 8 }}
-                        dot={{ stroke: '#38BDF8', strokeWidth: 3, r: 4 }}
-                        name="Mois d'importations"
-                        
-                    />
+                                {/* SEUIL 3 MOIS */}
+                                <ReferenceLine
+                                    y={3}
+                                    yAxisId="right"
+                                    stroke="#F87171"  // rouge clair pour signal d'alerte
+                                    strokeDasharray="4 4"
+                                    label={{
+                                        value: 'Seuil 3 mois',
+                                        position: 'right',
+                                        fill: '#F87171',
+                                        fontSize: 12,
+                                        fontWeight: 'bold'
+                                    }}
+                                />
 
-                    {/* % du PIB si applicable */}
-                    {selectedPeriod !== 'all' && (
-                        <Line
-                            yAxisId="left"
-                            type="monotone"
-                            dataKey="reservesToGDP"
-                            stroke="#A78BFA"  // violet clair pastel
-                            dot={{ stroke: '#A78BFA', strokeWidth: 1, r: 2 }}
-                            name="% du PIB"
-                        />
-                    )}
-                </ComposedChart>
-            </ResponsiveContainer>
-        </div>
-    </div>
-</div>
+                                {/* Barres de réserves */}
+                                <Bar
+                                    yAxisId="left"
+                                    dataKey="reserves"
+                                    fill="#6b7280"
+                                    name="Réserves (millions $)"
+                                    barSize={20}
+                                    opacity={0.8}
+                                />
+
+                                {/* Ligne mois d'importations */}
+                                <Line
+                                    yAxisId="right"
+                                    type="monotone"
+                                    dataKey="reservesMonths"
+                                    stroke="#38BDF8"
+                                    activeDot={{ r: 8 }}
+                                    dot={{ stroke: '#38BDF8', strokeWidth: 3, r: 4 }}
+                                    name="Mois d'importations"
+
+                                />
+
+                                {/* % du PIB si applicable */}
+                                {selectedPeriod !== 'all' && (
+                                    <Line
+                                        yAxisId="left"
+                                        type="monotone"
+                                        dataKey="reservesToGDP"
+                                        stroke="#A78BFA"  // violet clair pastel
+                                        dot={{ stroke: '#A78BFA', strokeWidth: 1, r: 2 }}
+                                        name="% du PIB"
+                                    />
+                                )}
+                            </ComposedChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -397,31 +413,31 @@ export default function ReservesTotalesPage() {
                     <h2 className="text-lg font-semibold text-white">Interprétation</h2>
                 </div>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    L'évolution des réserves internationales de Madagascar montre une tendance générale à la hausse depuis les années 2000, avec une accélération significative à partir de 2015.
-                    Cette croissance reflète l'intégration progressive du pays dans l'économie mondiale et l'amélioration relative de sa position financière externe.
+                    L&apos;évolution des réserves internationales de Madagascar montre une tendance générale à la hausse depuis les années 2000, avec une accélération significative à partir de 2015.
+                    Cette croissance reflète l&apos;intégration progressive du pays dans l&apos;économie mondiale et l&apos;amélioration relative de sa position financière externe.
                 </p>
                 <blockquote className="border-l-4 border-blue-400 pl-4 italic text-gray-400 mt-2">
-                    "Les niveaux records atteints en 2023 avec 2,63 milliards de dollars représentent près de 16,7% du PIB national,
-                    témoignant d'une volonté de renforcer la résilience économique face aux chocs extérieurs."
+                    &quot;Les niveaux records atteints en 2023 avec 2,63 milliards de dollars représentent près de 16,7% du PIB national,
+                    témoignant d&apos;une volonté de renforcer la résilience économique face aux chocs extérieurs.&quot;
                 </blockquote>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
                     Plusieurs phases distinctes sont observables :
                 </p>
                 <ul className="list-disc pl-5 text-gray-300 text-sm md:text-base leading-relaxed">
                     <li>Une période de faibles réserves (1960-1985) caractérisée par une forte volatilité et des niveaux généralement inférieurs à 60 millions de dollars.</li>
-                    <li>Une phase de consolidation modérée (1986-1995) avec des pics notables suivis de chutes brutales, reflétant l'instabilité politique et économique.</li>
+                    <li>Une phase de consolidation modérée (1986-1995) avec des pics notables suivis de chutes brutales, reflétant l&apos;instabilité politique et économique.</li>
                     <li>Une période de croissance progressive (1996-2012) interrompue par les crises politiques de 2002 et 2009.</li>
                     <li>Une phase de forte expansion (2013-2023) malgré une légère baisse en 2022, aboutissant au niveau record actuel.</li>
                 </ul>
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-2">
-                    En termes de couverture des importations, Madagascar a évolué d'une situation précaire (moins d'un mois) dans les années 1970-80
+                    En termes de couverture des importations, Madagascar a évolué d&apos;une situation précaire (moins d&apos;un mois) dans les années 1970-80
                     à une position plus confortable avec plus de 3 mois de couverture depuis 2017, et un pic à 5,73 mois pendant la crise COVID.
                     Le standard international recommandé étant de 3 mois, Madagascar se situe désormais au-dessus de ce seuil.
                 </p>
 
                 {/* Table comparative */}
                 <div className="mt-4">
-                    <h3 className="text-sm font-medium text-gray-300 mb-2">Périodes significatives dans l'évolution des réserves</h3>
+                    <h3 className="text-sm font-medium text-gray-300 mb-2">Périodes significatives dans l&apos;évolution des réserves</h3>
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-700 text-sm">
                             <thead>
@@ -443,7 +459,7 @@ export default function ReservesTotalesPage() {
                                     <td className="px-4 py-2 whitespace-nowrap">1986-1989</td>
                                     <td className="px-4 py-2 whitespace-nowrap">192.2 millions $</td>
                                     <td className="px-4 py-2 whitespace-nowrap">~3.1 mois</td>
-                                    <td className="px-4 py-2 whitespace-nowrap">Période d'ajustement structurel</td>
+                                    <td className="px-4 py-2 whitespace-nowrap">Période d&apos;ajustement structurel</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 whitespace-nowrap">2008-2012</td>
@@ -463,8 +479,8 @@ export default function ReservesTotalesPage() {
                 </div>
 
                 <p className="text-gray-300 text-sm md:text-base leading-relaxed mt-4">
-                    Il est important de noter que malgré cette amélioration notable, les réserves de Madagascar restent modestes par rapport à d'autres pays
-                    de taille similaire dans la région, reflétant les défis persistants en matière de balance commerciale et d'investissements étrangers.
+                    Il est important de noter que malgré cette amélioration notable, les réserves de Madagascar restent modestes par rapport à d&apos;autres pays
+                    de taille similaire dans la région, reflétant les défis persistants en matière de balance commerciale et d&apos;investissements étrangers.
                     La dépendance aux bailleurs de fonds internationaux reste également un facteur significatif dans la constitution de ces réserves.
                 </p>
             </div>

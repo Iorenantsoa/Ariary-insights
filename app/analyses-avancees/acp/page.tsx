@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
-import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+// Supprimez 'Legend' de l'import s'il n'est pas utilisé
 
 export default function AnalyseACP() {
   const [activeTab, setActiveTab] = useState('resultats');
@@ -51,12 +52,13 @@ export default function AnalyseACP() {
     absLoading: Math.abs(loadings[index][0])
   })).sort((a, b) => b.absLoading - a.absLoading);
 
-  const loadingsCP2 = variablesNames.map((name, index) => ({
-    name: name,
-    shortName: shortVariablesNames[index],
-    loading: loadings[index][1],
-    absLoading: Math.abs(loadings[index][1])
-  })).sort((a, b) => b.absLoading - a.absLoading);
+  // Vous pouvez supprimer cette variable si vous ne l'utilisez pas ou la conserver pour une utilisation future
+  // const loadingsCP2 = variablesNames.map((name, index) => ({
+  //   name: name,
+  //   shortName: shortVariablesNames[index],
+  //   loading: loadings[index][1],
+  //   absLoading: Math.abs(loadings[index][1])
+  // })).sort((a, b) => b.absLoading - a.absLoading);
 
   // Caractéristiques des composantes principales
   const composantes = [
@@ -142,7 +144,7 @@ export default function AnalyseACP() {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value:any) => (value * 100).toFixed(2) + '%'} />
+                        <Tooltip formatter={(value: number) => (value * 100).toFixed(2) + '%'} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -155,7 +157,7 @@ export default function AnalyseACP() {
                       </li>
                       <li className="flex items-start">
                         <div className="w-4 h-4 mt-1 mr-2 bg-blue-400 rounded-full"></div>
-                        <p>La première composante à elle seule capture <span className="text-blue-400 font-medium">52.43%</span> de l'information</p>
+                        <p>La première composante à elle seule capture <span className="text-blue-400 font-medium">52.43%</span> de l&apos;information</p>
                       </li>
                       <li className="flex items-start">
                         <div className="w-4 h-4 mt-1 mr-2 bg-blue-400 rounded-full"></div>
@@ -163,7 +165,7 @@ export default function AnalyseACP() {
                       </li>
                       <li className="flex items-start">
                         <div className="w-4 h-4 mt-1 mr-2 bg-blue-400 rounded-full"></div>
-                        <p>Les trois dernières composantes apportent relativement peu d'information supplémentaire</p>
+                        <p>Les trois dernières composantes apportent relativement peu d&apos;information supplémentaire</p>
                       </li>
                     </ul>
                   </div>
@@ -182,7 +184,7 @@ export default function AnalyseACP() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#444" />
                       <XAxis type="number" domain={[-0.6, 0.6]} tickFormatter={(value) => value.toFixed(2)} />
                       <YAxis dataKey="shortName" type="category" width={100} />
-                      <Tooltip formatter={(value:any) => value.toFixed(4)} />
+                      <Tooltip formatter={(value: number) => value.toFixed(4)} />
                       <Bar dataKey="loading">
                         {loadingsCP1.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.loading > 0 ? '#3B82F6' : '#EF4444'} />
@@ -239,19 +241,19 @@ export default function AnalyseACP() {
                 ))}
                 
                 <div className="bg-gray-900 p-6 rounded-lg">
-                  <h3 className="text-lg font-medium text-white mb-3">Implications pour l'économie malgache</h3>
+                  <h3 className="text-lg font-medium text-white mb-3">Implications pour l&apos;économie malgache</h3>
                   
                   <p className="text-gray-300 mb-4">
-                    L'ACP révèle une structure économique où le développement, l'ouverture internationale et la stabilité sont étroitement liés. La première composante principale suggère un arbitrage entre le développement économique (associé à des réserves plus importantes et des IDE) et l'endettement extérieur.
+                    L&apos;ACP révèle une structure économique où le développement, l&apos;ouverture internationale et la stabilité sont étroitement liés. La première composante principale suggère un arbitrage entre le développement économique (associé à des réserves plus importantes et des IDE) et l&apos;endettement extérieur.
                   </p>
                   
                   <p className="text-gray-300 mb-4">
-                    La deuxième composante met en évidence les tensions entre les flux commerciaux (balance commerciale) et les flux financiers (IDE). Ces résultats suggèrent que les politiques économiques à Madagascar doivent prendre en compte ces arbitrages fondamentaux, en particulier la relation entre l'ouverture économique et la stabilité monétaire.
+                    La deuxième composante met en évidence les tensions entre les flux commerciaux (balance commerciale) et les flux financiers (IDE). Ces résultats suggèrent que les politiques économiques à Madagascar doivent prendre en compte ces arbitrages fondamentaux, en particulier la relation entre l&apos;ouverture économique et la stabilité monétaire.
                   </p>
                   
                   <div className="bg-blue-900 bg-opacity-30 p-4 rounded-lg border-l-4 border-blue-400">
                     <p className="text-sm text-blue-200">
-                      <span className="font-bold">Recommandation:</span> Ces résultats suggèrent qu'une approche équilibrée, tenant compte des interactions complexes entre ces variables économiques, serait bénéfique pour la stabilité économique à long terme de Madagascar.
+                      <span className="font-bold">Recommandation:</span> Ces résultats suggèrent qu&apos;une approche équilibrée, tenant compte des interactions complexes entre ces variables économiques, serait bénéfique pour la stabilité économique à long terme de Madagascar.
                     </p>
                   </div>
                 </div>
@@ -262,10 +264,10 @@ export default function AnalyseACP() {
           {activeTab === 'details' && (
             <div className="space-y-6">
               <div className="mb-6">
-                <h2 className="text-xl font-semibold text-blue-400 mb-4">Détails Techniques de l'ACP</h2>
+                <h2 className="text-xl font-semibold text-blue-400 mb-4">Détails Techniques de l&apos;ACP</h2>
                 
                 <div className="mb-6">
-                  <h3 className="text-lg font-medium text-white mb-3">Variables incluses dans l'analyse</h3>
+                  <h3 className="text-lg font-medium text-white mb-3">Variables incluses dans l&apos;analyse</h3>
                   <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     {variablesNames.map((name, index) => (
                       <li key={index}>{name}</li>
@@ -341,7 +343,7 @@ export default function AnalyseACP() {
                       </tbody>
                     </table>
                   </div>
-                  <p className="text-gray-400 mt-4 text-sm italic">Note: Les valeurs{">"} 0.4 sont considérées comme contributions significatives (bleues pour positives, rouges pour négatives)</p>
+                  <p className="text-gray-400 mt-4 text-sm italic">Note: Les valeurs{">"}0.4 sont considérées comme contributions significatives (bleues pour positives, rouges pour négatives)</p>
                 </div>
               </div>
             </div>

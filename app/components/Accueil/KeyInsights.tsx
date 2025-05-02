@@ -36,7 +36,7 @@ export default function KeyInsights() {
           </ResponsiveContainer>
         </div>
         <p className="mt-3 text-sm text-gray-400">
-          L'analyse montre une corrélation significative (0.61) entre l'inflation et les variations du taux de change, 
+          L&apos;analyse montre une corrélation significative (0.61) entre l&apos;inflation et les variations du taux de change, 
           particulièrement prononcée durant les périodes de forte inflation ({" > "}10%).
         </p>
       </div>
@@ -51,7 +51,7 @@ export default function KeyInsights() {
               <XAxis dataKey="year" tick={{ fill: '#ccc', fontSize: 12 }} />
               <YAxis tick={{ fill: '#ccc', fontSize: 12 }} />
               <Tooltip 
-                formatter={(value: any) => [`${value}%`, 'Balance commerciale']} 
+                formatter={(value) => [`${value}%`, 'Balance commerciale']} 
                 contentStyle={{ backgroundColor: '#333', borderColor: '#555', color: '#fff' }}
                 itemStyle={{ color: '#fff' }}
               />
@@ -60,14 +60,14 @@ export default function KeyInsights() {
           </ResponsiveContainer>
         </div>
         <p className="mt-3 text-sm text-gray-400">
-          Madagascar présente un déficit commercial chronique qui s'est aggravé après la crise de 2020, 
-          contribuant à la pression sur l'Ariary.
+          Madagascar présente un déficit commercial chronique qui s&apos;est aggravé après la crise de 2020, 
+          contribuant à la pression sur l&apos;Ariary.
         </p>
       </div>
 
       {/* Réserves en mois d'importations */}
       <div className="p-5 bg-[#2A2A2A] border border-[#333] rounded-2xl shadow-sm hover:shadow-md transition duration-300 ease-in-out">
-        <h3 className="text-lg font-semibold text-gray-200 mb-4">Réserves en mois d'importations</h3>
+        <h3 className="text-lg font-semibold text-gray-200 mb-4">Réserves en mois d&apos;importations</h3>
         <div className="flex items-center justify-center h-48">
           <div className="relative w-40 h-40">
             <div className="absolute inset-0 flex items-center justify-center">
@@ -88,7 +88,7 @@ export default function KeyInsights() {
           </div>
         </div>
         <p className="mt-3 text-sm text-gray-400">
-          Les réserves internationales couvrent actuellement 5.4 mois d'importations, au-dessus du seuil 
+          Les réserves internationales couvrent actuellement 5.4 mois d&apos;importations, au-dessus du seuil 
           recommandé de 3 mois, offrant une certaine stabilité monétaire à court terme.
         </p>
       </div>
